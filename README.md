@@ -1,28 +1,17 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
-
-(__TODO__: your project name)
-
-# Shoppy Shoperson 
+# Dream Diffusion
 
 ## Overview
 
-(__TODO__: a brief one or two paragraph, high-level description of your project)
-
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
-
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
+Dream Diffusion is the dream journal for this AIGC era. Based on Stable Diffusion, Dream Diffusion will generate vivid depictions of dream scenes based on the descriptions or keywords users provide. Users can furthermore select from the generated pictures and compose them into a journal with date, title, and some more comments. Users can also share journals to others. 
 
 
 ## Data Model
 
-(__TODO__: a description of your application's data and their relationships to each other) 
+The application will store Users, Images and Journals.
 
-The application will store Users, Lists and Items
-
-* users can have multiple lists (via references)
-* each list can have multiple items (by embedding)
-
-(__TODO__: sample documents)
+* users can have multiple journals (by reference)
+* each journal will have title, date, images, and comments
+* each image will contain its prompt and a timestamp
 
 An Example User:
 
@@ -30,88 +19,114 @@ An Example User:
 {
   username: "shannonshopper",
   hash: // a password hash,
-  lists: // an array of references to List documents
+  journals: // an array of references to journal documents
 }
 ```
 
-An Example List with Embedded Items:
+An Example Journal:
 
 ```javascript
 {
-  user: // a reference to a User object
-  name: "Breakfast foods",
-  items: [
-    { name: "pancakes", quantity: "9876", checked: false},
-    { name: "ramen", quantity: "2", checked: true},
-  ],
+  user: // reference to a User object
+  name: "Dream about Mars",
+  image: // reference to an Image Object
+  title: // title
+  date: // dream date
+  comments: // some comments
+}
+```
+
+An Example Image:
+```javascript
+{
+  user: // reference to a User object
+  content: // image content
+  prompt: // the prompt for generating the picture
   createdAt: // timestamp
 }
 ```
 
 
-## [Link to Commented First Draft Schema](db.mjs) 
+## [Link to Commented First Draft Schema](schemas/db.mjs) 
 
-(__TODO__: create a first draft of your Schemas in db.mjs and link to it)
 
 ## Wireframes
 
-(__TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc.)
+/ - main page; the page for entering prompt and generating dream scenes.
 
-/list/create - page for creating a new shopping list
+![main](siteImages/Main.jpeg)
 
-![list create](documentation/list-create.png)
+/create - page for creating a Dream Journal
 
-/list - page for showing all shopping lists
+![create](siteImages/Create.jpeg)
 
-![list](documentation/list.png)
+/login - page for user to sign-up for login
 
-/list/slug - page for showing specific shopping list
+![login](siteImages/Login.jpeg)
 
-![list](documentation/list-slug.png)
+/history - page for showing all historic genrated images after user signed in
+
+![history](siteImages/History.jpeg)
+
+/collections - page for showing and filtering all previous journals
+
+![collections](siteImages/Collections.jpeg)
+
+/collections/\<document-id> - page for looking at individual journals
+
+![document](siteImages/Document.jpeg)
 
 ## Site map
 
-(__TODO__: draw out a site map that shows how pages are related to each other)
-
-Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/20/Sitemap_google.jpg), but you can create one without the screenshots, drop shadows, etc. ... just names of pages and where they flow to.
+![Site map example](siteImages/sitemap.png)
 
 ## User Stories or Use Cases
 
-(__TODO__: write out how your application will be used through [user stories](http://en.wikipedia.org/wiki/User_story#Format) and / or [use cases](https://en.wikipedia.org/wiki/Use_case))
+As a user, I want to create an account and log in so that I can have a personalized experience and save my dream journals.
 
-1. as non-registered user, I can register a new account with the site
-2. as a user, I can log in to the site
-3. as a user, I can create a new grocery list
-4. as a user, I can view all of the grocery lists I've created in a single list
-5. as a user, I can add items to an existing grocery list
-6. as a user, I can cross off items in an existing grocery list
+As a user, I want to input a description of my dream so that the website can generate a visual representation of the dream scene using text-to-image generation.
+
+As a user, I want to view the generated image of my dream scene so that I can visualize my dream more vividly.
+
+As a user, I want to write a dream journal entry based on the generated image so that I can record my thoughts and feelings about the dream.
+
+As a user, I want to save my dream journal entry with a title, date, and tags so that I can easily find and organize my dream journals later.
+
+As a user, I want to search my dream journals by tags, titles, or dates so that I can quickly find a specific dream journal entry.
+
+As a user, I want to edit and delete my dream journals so that I can keep my dream journal collection up-to-date and accurate.
+
+As a user, I want to view a gallery of the generated dream images so that I can explore and remember the visual aspects of my dreams.
+
+As a user, I want to have a private and secure space for my dream journals so that I can trust that my personal information is protected.
 
 ## Research Topics
 
-(__TODO__: the research topics that you're planning on working on along with their point values... and the total points of research topics listed)
+* (6 points) React.js
+  * React.js is a powerfull front-end framework
+  * I want to use it to make my webpage more integrated, dynamic, and good-looking
+  * It is also a challenging library, and I believe I can learn a lot from attempting to use it in the project.
+* (5 points) Container
+  * The website requires a pre-trained Latent Diffusion Model ready to be sampled in the backend
+  * Diffusion Model runs in `Anaconda` environment, while our `server-side` application runs in `Node.js`; thus need container to config and wrap the environment for the Diffusion model.
+  * Possible modules / solutions would contain: `Docker`, `Kubernetes`, `Singularity`
+* (If container fails) (1 points) External API
+  * Using DALL E api as the backend model.
+  * Calls api every time we need to sample from the model.
+* (3 points) Configuration Management
+  * I want to use it because this project will likely be involving lots of environment variables and other configurations
+  * I want to better manage them for more efficient development.
+  * Possible modules / solutions would contain: `dotenv`, `nconf`
 
-* (5 points) Integrate user authentication
-    * I'm going to be using passport for user authentication
-    * And account has been made for testing; I'll email you the password
-    * see <code>cs.nyu.edu/~jversoza/ait-final/register</code> for register page
-    * see <code>cs.nyu.edu/~jversoza/ait-final/login</code> for login page
-* (4 points) Perform client side form validation using a JavaScript library
-    * see <code>cs.nyu.edu/~jversoza/ait-final/my-form</code>
-    * if you put in a number that's greater than 5, an error message will appear in the dom
-* (5 points) vue.js
-    * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points
-
-10 points total out of 8 required points (___TODO__: addtional points will __not__ count for extra credit)
 
 
 ## [Link to Initial Main Project File](app.mjs) 
 
-(__TODO__: create a skeleton Express application with a package.json, app.mjs, views folder, etc. ... and link to your initial app.mjs)
-
 ## Annotations / References Used
 
-(__TODO__: list any tutorials/references/etc. that you've based your code off of)
-
-1. [passport.js authentication docs](http://passportjs.org/docs) - (add link to source code that was based on this)
-2. [tutorial on vue.js](https://vuejs.org/v2/guide/) - (add link to source code that was based on this)
+1. [tutorial on vue.js](https://legacy.reactjs.org/docs/getting-started.html)
+2. [tutorial on Docker](https://docker-curriculum.com/)
+3. [dotenv documentation](https://www.npmjs.com/package/dotenv)
+4. [Stable Diffusion repo](https://github.com/CompVis/stable-diffusion)
+5. [DiT repo](https://github.com/facebookresearch/DiT)
 
