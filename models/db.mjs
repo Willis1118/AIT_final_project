@@ -27,3 +27,9 @@ const ImageSchema = new mongoose.Schema({
         default: Date.now,
     },
 });
+
+
+
+await mongoose.connect('mongodb://localhost/final_project', mongooseOpts)
+              .then(() => console.log('connection established'))
+              .catch((e) => console.log(e))
