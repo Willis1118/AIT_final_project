@@ -6,7 +6,7 @@ import Image from "next/image";
 import styles from '../../styles/post.module.css';
 import Layout from "../../components/layout";
 
-// export function getServerSideProps( context ){
+// export async function getServerSideProps( context ){
 //     const { id } = context.query;
 
 //     return {
@@ -17,9 +17,12 @@ import Layout from "../../components/layout";
 // }
 
 export default function Post({ id }){
+    
+    const { query } = useRouter();
+    
     return (
         <Layout>
-            <div className={styles.post}>
+            <div>
                 <Image
                     priority
                     src="/image/Samoyed.png"
@@ -28,7 +31,8 @@ export default function Post({ id }){
                     alt=""
                     className={styles.img}
                 />
-                <p>Don't worry! This cute Samoyed will take care of everything for you!</p>
+                <p className={styles.post}>You dream is: {query.prompt}</p>
+                <p className={styles.post}>Don't worry! This cute Samoyed will take care of everything for you!</p>
             </div>
         </Layout>
     )
