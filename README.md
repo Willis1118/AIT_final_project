@@ -104,8 +104,8 @@ As a user, I want to have a private and secure space for my dream journals so th
 
 ## Research Topics
 
-* (6 points) React.js
-  * React.js is a powerfull front-end framework
+* (6 points) Next.js
+  * Next.js is a powerfull full-stack React framework
   * I want to use it to make my webpage more integrated, dynamic, and good-looking
   * It is also a challenging library, and I believe I can learn a lot from attempting to use it in the project.
 * (5 points) Container
@@ -126,7 +126,7 @@ As a user, I want to have a private and secure space for my dream journals so th
 
 ## Annotations / References Used
 
-1. [tutorial on vue.js](https://legacy.reactjs.org/docs/getting-started.html)
+1. [tutorial on next.js](https://nextjs.org/)
 2. [tutorial on Docker](https://docker-curriculum.com/)
 3. [dotenv documentation](https://www.npmjs.com/package/dotenv)
 4. [Stable Diffusion repo](https://github.com/CompVis/stable-diffusion)
