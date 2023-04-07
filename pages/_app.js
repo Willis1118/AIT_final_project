@@ -1,4 +1,5 @@
 // import '../schemas/db.mjs"
+import '../styles/global.css'
 
 export default function App({ Component, pageProps }){
     // in next.js, _app.js is the top-level react component that wraps all pages in the application

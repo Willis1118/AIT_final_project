@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
 import { dbConnection } from "../../lib/dbConnect";
-import User from '../../models/User'
+import User from '../../models/User';
+import Post from "../../models/Post";
 // all functions in api and be used as api routing
 // we should not fetch API route from getStaticProps or getStaticPaths 
 // these two function should only include server-side code and never run client-side
@@ -14,7 +15,6 @@ import User from '../../models/User'
 
 export default async function handler(req, res){
     const { method } = req;
-    const pwd = "dheaf3234edhb184"; //dummy pwd
 
     await dbConnection(); // connect to db
 
@@ -23,14 +23,11 @@ export default async function handler(req, res){
             throw new Error("Not Implemented");
         case "POST":
             try{
-                const user = new User({
-                    name: req.body.name,
-                    email: req.body.email,
-                    passwordHash: pwd
-                })
-                await user.save();
-                res.redirect(302, '/'); // next asks for the appropriate status code to process response
-                // res.status(200).json({ success: true, content: user });
+                const post = new Post({
+                    prompt: req.body.prompt,
+                });
+                await post.save();
+                res.redirect(302, '/'); // next asks for the appropriate status code
             } catch(e){
                 console.log(e);
                 res.status(404).json({ success: false });
