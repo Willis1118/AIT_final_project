@@ -1,5 +1,7 @@
 # Dream Diffusion
 
+I used this repo for a temporary production branch (since I could not get a last minute approve for installation of Vercel on github in our organization). The content is the exact same as the one assigned to us. 
+
 ## Overview
 
 Dream Diffusion is the dream journal for this AIGC era. Based on Stable Diffusion, Dream Diffusion will generate vivid depictions of dream scenes based on the descriptions or keywords users provide. Users can furthermore select from the generated pictures and compose them into a journal with date, title, and some more comments. Users can also share journals to others. 
