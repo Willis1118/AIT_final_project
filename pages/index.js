@@ -29,7 +29,7 @@ export default function Home({ content }){
                     <title>Dream Diffusion</title>
                 </Head>
                 
-                <form onSubmit={handleSubmit} className={styles.form}>
+                <form action="/api/prompt" method="POST" className={styles.form}>
                     <label htmlFor="description" className={styles.label}> Start Dreaming: <a>(or should we do it for you?)</a></label>
                     <input 
                         type="text" 

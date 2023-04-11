@@ -120,8 +120,6 @@ As a user, I want to have a private and secure space for my dream journals so th
   * I want to better manage them for more efficient development.
   * Possible modules / solutions would contain: `dotenv`, `nconf`
 
-
-
 ## [Link to Initial Main Project File](app.mjs) 
 
 ## Annotations / References Used

@@ -2,23 +2,30 @@ import { useRouter } from "next/router";
 import mongoose from "mongoose";
 import Image from "next/image";
 
-// import Post from '../../models/Post';
+import { dbConnection } from "../../lib/dbConnect";
+import Post from '../../models/Post';
 import styles from '../../styles/post.module.css';
 import Layout from "../../components/layout";
 
-// export async function getServerSideProps( context ){
-//     const { id } = context.query;
+export async function getServerSideProps( context ){
 
-//     return {
-//         props: {
-//             id,
-//         }
-//     }
-// }
+    await dbConnection();
 
-export default function Post({ id }){
+    const posts = await Post.find({});
+    const post = posts[0].prompt;
+
+    return {
+        props: {
+            post,
+        }
+    }
+}
+
+export default function IndividualPost({ post }){
     
     const { query } = useRouter();
+
+    console.log(post);
     
     return (
         <Layout>
@@ -31,7 +38,7 @@ export default function Post({ id }){
                     alt=""
                     className={styles.img}
                 />
-                <p className={styles.post}>You dream is: {query.prompt}</p>
+                <p className={styles.post}>You dream is: {post}</p>
                 <p className={styles.post}>Don't worry! This cute Samoyed will take care of everything for you!</p>
             </div>
         </Layout>
