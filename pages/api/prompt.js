@@ -20,7 +20,10 @@ export default async function handler(req, res){
 
     switch(method){
         case "GET":
-            throw new Error("Not Implemented");
+            res.status(200).json({
+                status: "success"
+            });
+            break;
         case "POST":
             try{
                 const post = new Post({

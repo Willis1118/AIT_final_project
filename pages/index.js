@@ -8,6 +8,23 @@ import { useState } from 'react';
 import styles from '../styles/home.module.css'
 import Layout from '../components/layout';
 
+export async function getServerSideProps(context){
+    const fetchOption = {
+        method: 'GET',
+    };
+
+    const response = await fetch("http://localhost:3000/api/prompt", fetchOption); //only for production
+    const data = await response.json(); // required to parse response
+
+    console.log(data)
+
+    return {
+        props: {
+            data
+        }
+    };
+}
+
 export default function Home({ content }){
 
     const router = useRouter()
@@ -28,17 +45,19 @@ export default function Home({ content }){
                 <Head>
                     <title>Dream Diffusion</title>
                 </Head>
-                
-                <form action="/api/prompt" method="POST" className={styles.form}>
-                    <label htmlFor="description" className={styles.label}> Start Dreaming: <a>(or should we do it for you?)</a></label>
-                    <input 
-                        type="text" 
-                        name="prompt" 
-                        placeholder="Who lurks into your dream..." 
-                        onChange={(e) => {setPrompt(e.target.value)}} 
-                    />
-                    <input type="submit" />
-                </form>
+                <div className={styles.container}>
+                    <form action="/api/prompt" method="POST" className={styles.form}>
+                        <label htmlFor="description" className={styles.label}> Start Dreaming: <a>(or should we do it for you?)</a></label>
+                        <input 
+                            type="text" 
+                            name="prompt" 
+                            placeholder="Who lurks into your dream..." 
+                            onChange={(e) => {setPrompt(e.target.value)}} 
+                            required={true}
+                        />
+                        <input type="submit" />
+                    </form>
+                </div>
             </Layout>
         </>
     )

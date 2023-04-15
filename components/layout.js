@@ -18,7 +18,7 @@ export default function Layout({ children, home }){ // have to specify name as c
                 </div>
                 <Link className={styles.title} href="/">Dream Diffusion</Link>
                 <div className={styles.right}>
-                    <Link className={styles.nav} href="/login">Login</Link>
+                    <Link className={styles.nav} href="/account/signup">Sign Up</Link>
                 </div>
             </header>
             

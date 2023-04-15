@@ -34,10 +34,6 @@
     margin-right: 0;
 }
 
-.nav:hover{
-    color: #7C7C7C;
-}
-
 .header .title {
     font-size: 1.5rem;
     font-weight: bold;
