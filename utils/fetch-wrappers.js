@@ -3,7 +3,7 @@ import { userService } from './user-service';
 
 import getRuntimeConfig from '../components/getStaticPath';
 
-const baseUrl = getRuntimeConfig().apiUrl;
+const baseUrl = process.env.BASE_URL;
 
 export const fetchWrapper = {
     get,

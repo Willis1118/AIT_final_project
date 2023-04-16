@@ -6,8 +6,8 @@ import { fetchWrapper } from './fetch-wrappers';
 import getRuntimeConfig from '../components/getStaticPath';
 
 // handle user functionality
+// in client side, so process.env & getConfig are all not visible
 
-const baseUrl = `${getRuntimeConfig.apiUrl}/users`;
 const onServer = typeof window === 'undefined';
 const userSubject = new BehaviorSubject(!onServer && JSON.parse(localStorage.getItem('user')));
 
@@ -17,12 +17,10 @@ export const userService = {
     login,
     logout,
     register,
-    getAll,
-    getById,
 }
 
 function login(username, password) {
-    return fetchWrapper.post(`${baseUrl}/auth`, { username, password })
+    return fetchWrapper.post(`/api/user/auth`, { username, password })
         .then(user => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
             userSubject.next(user);
@@ -40,15 +38,6 @@ function logout() {
 }
 
 function register(user) {
-    return fetchWrapper.post(`${baseUrl}/register`, user);
+    return fetchWrapper.post(`/api/user/register`, user);
 }
-
-function getAll() {
-    return fetchWrapper.get(baseUrl);
-}
-
-function getById(id) {
-    return fetchWrapper.get(`${baseUrl}/${id}`);
-}
-
 

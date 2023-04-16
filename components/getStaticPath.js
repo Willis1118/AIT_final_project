@@ -1,7 +1,12 @@
 import getConfig from "next/config";
 
-const { publicRuntimeConfig } = getConfig();
+console.log("config", getConfig());
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
-export default function getRuntimeConfig(){
+export function getRuntimeConfig(){
     return publicRuntimeConfig;
+}
+
+export function getServerRuntimeConfig(){
+    return serverRuntimeConfig;
 }

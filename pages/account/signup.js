@@ -60,7 +60,10 @@ export default function Login(){
                         <label htmlFor="password" >Password: </label>
                         <input type="password" name="password" {...register('password')}/>
                         <div>{errors.password?.message}</div>
-                        <input type="submit" value="Signup" />
+                        <button disabled={formState.isSubmitting}>
+                            {formState.isSubmitting && <span></span>}
+                            Sign Up
+                        </button>
                         <p>Already have an account? <Link href="/account/login">Log in</Link></p>
                     </form>
                 </div>

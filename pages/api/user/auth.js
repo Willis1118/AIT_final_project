@@ -1,21 +1,36 @@
 import bcrypt from 'bcryptjs';
 
-import { apiHandler, usersRepo } from '../../../utils/api';
+import { apiHandler } from '../../../utils/api/api-handler';
+import { usersRepo } from '../../../utils/api/users-repo';
+import { dbConnection } from '../../../lib/dbConnect';
+
+const { serverRuntimeConfig } = getConfig();
 
 export default apiHandler({
-    post: register
+    post: authenticate
 });
 
-function register(req, res){
-    const { password, ...user } = req.body;
+async function authenticate(req, res) {
+    const { username, password } = req.body;
+
+    await dbConnection();
+
+    const user = usersRepo.find({email: username});
 
     // validate
-    if (usersRepo.find(x => x.username === user.username))
-        throw `User with the username "${user.username}" already exists`;
-    
-    // hash password
-    user.hash = bcrypt.hashSync(password, 10);    
+    if (!(user && bcrypt.compareSync(password, user.hash))) {
+        throw 'Username or password is incorrect';
+    }
 
-    usersRepo.create(user);
-    return res.status(200).json({});
+    // create a jwt token that is valid for 7 days
+    const token = jwt.sign({ sub: user.id }, serverRuntimeConfig.secret, { expiresIn: '7d' });
+
+    // return basic user details and token
+    return res.status(200).json({
+        id: user.id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        token
+    });
 }
