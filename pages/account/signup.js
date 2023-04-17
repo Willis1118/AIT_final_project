@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-import { userService, alertService } from '../../utils/user-service';
+import { userService } from '../../utils/user-service';
 import Layout from "../../components/layout";
 import styles from "../../styles/login.module.css";
 
