@@ -27,7 +27,7 @@ export default async function handler(req, res){
                     prompt: req.body.prompt,
                 });
                 await post.save();
-                res.redirect(302, '/posts/post'); // next asks for the appropriate status code
+                res.redirect(302, '/all-posts/post'); // next asks for the appropriate status code
                 // res.status(200).json({ success: true, content: post });
             } catch(e){
                 console.log(e);
