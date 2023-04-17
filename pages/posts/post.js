@@ -1,8 +1,10 @@
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import mongoose from "mongoose";
 import Image from "next/image";
 
 import { dbConnection } from "../../utils/dbConnect";
+import { getSession } from "../../utils/api/get-session";
 import Post from '../../models/Post';
 import styles from '../../styles/post.module.css';
 import Layout from "../../components/layout";
@@ -10,25 +12,29 @@ import Layout from "../../components/layout";
 export async function getServerSideProps( context ){
 
     await dbConnection();
+    const session = await getSession(context.req, context.res);
 
     const posts = await Post.find({});
     const post = posts[posts.length-1].prompt;
 
     return {
         props: {
-            post,
+            post: post,
+            data: session.user,
         }
     }
 }
 
-export default function IndividualPost({ post }){
-    
-    const { query } = useRouter();
+export default function IndividualPost({ post, data }){
 
-    console.log(post);
+    const [user, setUser] = useState(null);
+    
+    useEffect(() => {
+        setUser(data);
+    }, [data]);
     
     return (
-        <Layout>
+        <Layout sessionData={user}>
             <div>
                 <Image
                     priority
