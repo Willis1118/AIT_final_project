@@ -18,8 +18,8 @@ export default function Login(){
             .required('First Name is required'),
         lastName: Yup.string()
             .required('Last Name is required'),
-        username: Yup.string()
-            .required('Username is required'),
+        email: Yup.string().email()
+            .required('Email is required'),
         password: Yup.string()
             .required('Password is required')
             .min(6, 'Password must be at least 6 characters')
@@ -31,32 +31,34 @@ export default function Login(){
     const { errors } = formState;
 
     function onSubmit(user) {
-        console.log('signup session');
+        console.log('signup session', user);
 
         return userService.register(user)
             .then(() => {
-                alertService.success('Registration successful', { keepAfterRouteChange: true });
+                // alertService.success('Registration successful', { keepAfterRouteChange: true });
                 router.push('/');
             })
-            .catch(alertService.error);
+            .catch(err => console.log(err));
     }
 
     return (
         <>
             <Head>
-                <title>Login</title>
+                <title>Signup</title>
             </Head>
             <Layout>
                 <div className={styles.container}>
                     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                         <h2>Welcome to Dream Diffusion</h2>
                         <label htmlFor="firstname" >First Name: </label>
-                        <input type="text" name="firstname" {...register('firstname')}/>
+                        <input type="text" name="firstname" {...register('firstName')}/>
+                        <div>{errors.firstName?.message}</div>
                         <label htmlFor="lastname" >Last Name: </label>
-                        <input type="text" name="lastname" {...register('lastname')}/>
+                        <input type="text" name="lastname" {...register('lastName')}/>
+                        <div>{errors.lastName?.message}</div>
                         <label htmlFor="username" >Email: </label>
-                        <input type="text" name="username" {...register('username')}/>
-                        {/* <div>{errors.email?.message}</div> */}
+                        <input type="text" name="email" {...register('email')}/>
+                        <div>{errors.email?.message}</div>
                         <label htmlFor="password" >Password: </label>
                         <input type="password" name="password" {...register('password')}/>
                         <div>{errors.password?.message}</div>

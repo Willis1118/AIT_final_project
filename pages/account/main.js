@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-import Layout from "../components/layout";
-import { getSession } from '../utils/api/get-session';
+import Layout from "../../components/layout";
+import { getSession } from '../../utils/api/get-session';
 
 export async function getServerSideProps(context){
     const session = await getSession(context.req, context.res);
@@ -13,7 +13,7 @@ export async function getServerSideProps(context){
     };
 }
 
-export default function About({ data }){
+export default function Posts({ data }){
 
     const [user, setUser] = useState(null);
     
@@ -23,7 +23,7 @@ export default function About({ data }){
 
     return (
         <Layout sessionData={user}>
-            <h1>This will be the about page</h1>
+            <h1>This will be the account detail page</h1>
         </Layout>
     )
 }

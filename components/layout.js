@@ -5,7 +5,10 @@ import Head from "next/head";
 
 import styles from '../styles/layout.module.css'
 
-export default function Layout({ children, home }){ // have to specify name as children when access content between tags
+export default function Layout({ children, sessionData }){ // have to specify name as children when access content between tags
+
+    console.log(sessionData);
+
     return(
         <>
             <Head>
@@ -13,12 +16,14 @@ export default function Layout({ children, home }){ // have to specify name as c
             </Head>
             <header className={styles.header}>
                 <div className={styles.left}>
-                    <Link className={styles.nav} href="/history">History</Link>
-                    <Link className={styles.nav} href="/posts">Post</Link>
+                    {sessionData && <Link className={styles.nav} href="/history">History</Link>}
+                    {sessionData && <Link className={styles.nav} href="/posts">Post</Link>}
                 </div>
                 <Link className={styles.title} href="/">Dream Diffusion</Link>
                 <div className={styles.right}>
-                    <Link className={styles.nav} href="/account/signup">Sign Up</Link>
+                    {sessionData ? 
+                    <Link className={styles.nav} href="/account/main">{sessionData.firstName} {sessionData.lastName[0]+'.'}</Link> :
+                    <Link className={styles.nav} href="/account/signup">Sign Up</Link>}
                 </div>
             </header>
             

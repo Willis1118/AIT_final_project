@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-import { User } from '../../models/User';
+import User from '../../models/User';
+import { dbConnection } from '../dbConnect';
 
 export const usersRepo = {
     find,
@@ -9,9 +10,11 @@ export const usersRepo = {
 
 async function find(data){
     let user = {};
+    
+    await dbConnection();
 
     try{
-        user = await User.find(data);
+        user = await User.findOne(data);
     }catch(e){
         console.log(e);
     }
@@ -21,6 +24,8 @@ async function find(data){
 
 async function create(data){
     let newUser = new User(data);
+
+    await dbConnection();
 
     try{
         await newUser.save();

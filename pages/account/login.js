@@ -14,7 +14,7 @@ export default function Login(){
 
     // form validation rules 
     const validationSchema = Yup.object().shape({
-        username: Yup.string().required('Username is required'),
+        email: Yup.string().email().required('Email is required'),
         password: Yup.string().required('Password is required')
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
@@ -25,10 +25,10 @@ export default function Login(){
 
     // handle form submission
     // calling user service to the wrapped api
-    function onSubmit({ username, password }) {
+    function onSubmit({ email, password }) {
         console.log('log in session');
 
-        return userService.login(username, password)
+        return userService.login(email, password)
             .then(() => {
                 // get return url from query parameters or default to '/'
                 router.push("/");
@@ -46,7 +46,7 @@ export default function Login(){
                     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                         <h2>Welcome to Dream Diffusion</h2>
                         <label htmlFor="username" >Email: </label>
-                        <input type="text" name="username" {...register('username')}/>
+                        <input type="text" name="email" {...register('email')}/>
                         <div>{errors.email?.message}</div>
                         <label htmlFor="password" >Password: </label>
                         <input type="password" name="password" {...register('password')}/>

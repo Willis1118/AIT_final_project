@@ -1,8 +1,28 @@
-import Layout from "../components/layout";
+import { useState, useEffect } from "react";
 
-export default function Posts(){
+import Layout from "../components/layout";
+import { getSession } from '../utils/api/get-session';
+
+export async function getServerSideProps(context){
+    const session = await getSession(context.req, context.res);
+
+    return {
+        props: {
+            data: session.user
+        }
+    };
+}
+
+export default function Posts({ data }){
+
+    const [user, setUser] = useState(null);
+    
+    useEffect(() => {
+        setUser(data);
+    }, [data]);
+
     return (
-        <Layout>
+        <Layout sessionData={user}>
             <h1>This will be the posts page</h1>
         </Layout>
     )

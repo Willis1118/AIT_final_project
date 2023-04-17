@@ -3,45 +3,39 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import styles from '../styles/home.module.css'
 import Layout from '../components/layout';
+import { getSession } from '../utils/api/get-session';
 
 export async function getServerSideProps(context){
     const fetchOption = {
         method: 'GET',
     };
 
-    const response = await fetch("http://localhost:3000/api/prompt", fetchOption); //only for production
-    const data = await response.json(); // required to parse response
-
-    console.log(data)
+    const session = await getSession(context.req, context.res);
 
     return {
         props: {
-            data
+            data: session.user
         }
     };
 }
 
-export default function Home({ content }){
+export default function Home({ data }){
 
-    const router = useRouter()
-    const [prompt, setPrompt] = useState("")
+    const [user, setUser] = useState(null);
+    
+    useEffect(() => {
+        setUser(data);
+    }, [data]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        
-        router.push({
-            pathname: '/posts/post',
-            query: {prompt: prompt}
-        });
-    }
+    console.log("frontend session", user);
 
     return (
         <>
-            <Layout home> { /* this will give true on home */}
+            <Layout sessionData={user}> { /* this will give true on home */}
                 <Head>
                     <title>Dream Diffusion</title>
                 </Head>
@@ -52,7 +46,6 @@ export default function Home({ content }){
                             type="text" 
                             name="prompt" 
                             placeholder="Who lurks into your dream..." 
-                            onChange={(e) => {setPrompt(e.target.value)}} 
                             required={true}
                         />
                         <input type="submit" />

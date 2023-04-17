@@ -1,6 +1,6 @@
 
 export function errorHandler(err, res){
-
+    console.log("error", err);
     // 400 level error
     if(typeof err === 'string'){
         const is404 = err.toLowerCase().endsWith('not found');

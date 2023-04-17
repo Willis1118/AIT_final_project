@@ -16,7 +16,10 @@ if (!cached) {
 }
 
 export async function dbConnection(){
+
     if(cached.conn){ return cached.conn; } //already connected
+
+    console.log("connecting", cached);
 
     if(!cached.promise){
         const mongooseOpts = {

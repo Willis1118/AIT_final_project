@@ -19,12 +19,13 @@ export const userService = {
     register,
 }
 
-function login(username, password) {
-    return fetchWrapper.post(`/api/user/auth`, { username, password })
+function login(email, password) {
+    return fetchWrapper.post(`/api/user/auth`, { email: email, password: password })
         .then(user => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
             userSubject.next(user);
-            localStorage.setItem('user', JSON.stringify(user));
+            console.log("here?");
+            // localStorage.setItem('user', JSON.stringify(user));
 
             return user;
         });

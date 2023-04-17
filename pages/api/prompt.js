@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { dbConnection } from "../../lib/dbConnect";
+import { dbConnection } from "../../utils/dbConnect";
 import User from '../../models/User';
 import Post from "../../models/Post";
 // all functions in api and be used as api routing
