@@ -8,7 +8,6 @@ if(!MONGODB_URI){
     );
 }
 
-
 /* to prevent connections from blowing up when calling api routes */
 let cached = global.mongoose
 
@@ -17,7 +16,10 @@ if (!cached) {
 }
 
 export async function dbConnection(){
+
     if(cached.conn){ return cached.conn; } //already connected
+
+    console.log("connecting", cached);
 
     if(!cached.promise){
         const mongooseOpts = {
@@ -26,10 +28,14 @@ export async function dbConnection(){
         };
 
         cached.promise = mongoose.connect(MONGODB_URI, mongooseOpts)
-                                 .then(mongoose => { console.log("Connection established"); return mongoose; })
-                                 .catch((err) => { throw new Error( "Connection fails" )});
-        
-        cached.conn = await cached.promise;
+                                 .then(mongoose => { return mongoose; })
+                                 
+        try{
+            cached.conn = await cached.promise;
+            console.log("connection established");
+        } catch(e){
+            throw new Error( "Connection fails" );
+        }
         return cached.conn
     }
 }

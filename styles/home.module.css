@@ -1,3 +1,11 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    background-color: #f1f1f1;
+}
+
 .form {
     display: flex;
     flex-direction: column;

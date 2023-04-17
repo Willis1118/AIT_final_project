@@ -1,37 +1,39 @@
-import { useRouter } from "next/router";
-import mongoose from "mongoose";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 
-// import Post from '../../models/Post';
+import { dbConnection } from "../../utils/dbConnect";
+import { getSession } from "../../utils/api/get-session";
+import Post from '../../models/Post';
 import styles from '../../styles/post.module.css';
 import Layout from "../../components/layout";
 
-// export async function getServerSideProps( context ){
-//     const { id } = context.query;
+export async function getServerSideProps( context ){
 
-//     return {
-//         props: {
-//             id,
-//         }
-//     }
-// }
+    await dbConnection();
+    const session = await getSession(context.req, context.res);
 
-export default function Post({ id }){
+    const posts = await Post.find({});
+    const post = posts[posts.length-1].prompt;
+
+    return {
+        props: {
+            post: post,
+            data: session.user ? session.user : null,
+        }
+    }
+}
+
+export default function IndividualPost({ post, data }){
+
+    const [user, setUser] = useState(null);
     
-    const { query } = useRouter();
+    useEffect(() => {
+        setUser(data);
+    }, [data]);
     
     return (
-        <Layout>
+        <Layout sessionData={user}>
             <div>
-                <Image
-                    priority
-                    src="/image/Samoyed.png"
-                    height={290}
-                    width={510}
-                    alt=""
-                    className={styles.img}
-                />
-                <p className={styles.post}>You dream is: {query.prompt}</p>
+                <p className={styles.post}>You dream is: {post}</p>
                 <p className={styles.post}>Don't worry! This cute Samoyed will take care of everything for you!</p>
             </div>
         </Layout>

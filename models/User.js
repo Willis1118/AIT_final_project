@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-    name: String, // user name
+    _id: mongoose.Schema.Types.ObjectId,
+    firstName: String,
+    lastName: String, // user name
     email: String, // user email
-    passwordHash: String, // hased user password
+    password: String, // hased user password
     //posts: [ JournalSchema ], // reference to list of journal items
 });
 
