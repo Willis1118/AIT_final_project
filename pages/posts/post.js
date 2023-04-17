@@ -35,14 +35,6 @@ export default function IndividualPost({ post, data }){
     return (
         <Layout sessionData={user}>
             <div>
-                <Image
-                    priority
-                    src="/image/Samoyed.png"
-                    height={290}
-                    width={510}
-                    alt=""
-                    className={styles.img}
-                />
                 <p className={styles.post}>You dream is: {post}</p>
                 <p className={styles.post}>Don't worry! This cute Samoyed will take care of everything for you!</p>
             </div>
