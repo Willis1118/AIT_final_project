@@ -10,14 +10,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "connect-redis": "^7.0.1",
     "connect-sqlite3": "^0.9.13",
     "eslint": "^8.36.0",
     "eslint-plugin-mocha": "^10.1.0",
     "express": "^4.18.2",
     "express-jwt": "^8.4.1",
+    "express-session": "^1.17.3",
+    "ioredis": "^5.3.2",
     "mocha": "^10.2.0",
     "mongoose": "^7.0.2",
-    "next-auth": "^4.22.0"
+    "next-auth": "^4.22.0",
+    "redis": "^4.6.5"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",

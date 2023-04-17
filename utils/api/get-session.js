@@ -1,15 +1,19 @@
-import path from 'path';
 import nextSession from "next-session";
-
+import RedisStore from 'connect-redis';
+import Redis from "ioredis";
+import RedisStoreFactory from 'connect-redis';
 import { expressSession, promisifyStore } from "next-session/lib/compat";
-let SQLiteStore = require("connect-sqlite3")(expressSession);
 
-const __path = path.join(process.cwd(), 'tmp');
+const redisClient = new Redis(process.env.REDIS_URI);
+
+const redisStore = new RedisStore({
+    client: redisClient,
+})
 
 export const getSession = nextSession({
-  name: "WIB_SESSION",
+  name: "USER_SESSION",
   store: promisifyStore(
-    new SQLiteStore({ dir: __path, table: "wiberSessions" })
+    redisStore
   ),
   cookie: {
     secure: true,
