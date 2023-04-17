@@ -108,6 +108,10 @@ As a user, I want to have a private and secure space for my dream journals so th
   * Next.js is a powerfull full-stack React framework
   * I want to use it to make my webpage more integrated, dynamic, and good-looking
   * It is also a challenging library, and I believe I can learn a lot from attempting to use it in the project.
+* (2 points) `Redis` Session Store / `Next-auth`
+  * setting up session management in `next` with `Redis` client or `next-auth`
+* (2 points) jwt authentication
+  * setting up user authentication with `express-jwt`
 * (5 points) Container
   * The website requires a pre-trained Latent Diffusion Model ready to be sampled in the backend
   * Diffusion Model runs in `Anaconda` environment, while our `server-side` application runs in `Node.js`; thus need container to config and wrap the environment for the Diffusion model.
