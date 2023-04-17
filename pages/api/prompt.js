@@ -1,7 +1,4 @@
-import mongoose from "mongoose";
-
 import { dbConnection } from "../../utils/dbConnect";
-import User from '../../models/User';
 import Post from "../../models/Post";
 // all functions in api and be used as api routing
 // we should not fetch API route from getStaticProps or getStaticPaths 

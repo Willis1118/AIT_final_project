@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { getSession } from '../../../utils/api/get-session';
 
 import { apiHandler } from '../../../utils/api/api-handler';
-import { usersRepo } from '../../../utils/api/users-repo';
 import { dbConnection } from '../../../utils/dbConnect';
 import User from '../../../models/User';
 

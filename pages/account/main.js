@@ -8,7 +8,7 @@ export async function getServerSideProps(context){
 
     return {
         props: {
-            data: session.user
+            data: session.user ? session.user : null
         }
     };
 }

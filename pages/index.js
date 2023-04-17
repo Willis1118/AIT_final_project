@@ -10,15 +10,11 @@ import Layout from '../components/layout';
 import { getSession } from '../utils/api/get-session';
 
 export async function getServerSideProps(context){
-    const fetchOption = {
-        method: 'GET',
-    };
-
     const session = await getSession(context.req, context.res);
 
     return {
         props: {
-            data: session.user
+            data: session.user ? session.user : null
         }
     };
 }

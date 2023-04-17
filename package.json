@@ -4,13 +4,15 @@
   "description": "The content below is an example project proposal / requirements document. Replace the text below the lines marked \"__TODO__\" with details specific to your project. Remove the \"TODO\" lines.",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev"
+    "dev": "next dev",
+    "build": "next build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "connect-sqlite3": "^0.9.13",
     "eslint": "^8.36.0",
+    "eslint-plugin-mocha": "^10.1.0",
     "express": "^4.18.2",
     "express-jwt": "^8.4.1",
     "mocha": "^10.2.0",
@@ -20,6 +22,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
     "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
     "next": "^13.2.4",
     "next-session": "^4.0.5",
     "react": "^18.2.0",

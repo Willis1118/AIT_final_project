@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import mongoose from "mongoose";
 import Image from "next/image";
@@ -20,7 +19,7 @@ export async function getServerSideProps( context ){
     return {
         props: {
             post: post,
-            data: session.user,
+            data: session.user ? session.user : null,
         }
     }
 }
