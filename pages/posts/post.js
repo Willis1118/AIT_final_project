@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import mongoose from "mongoose";
-import Image from "next/image";
 
 import { dbConnection } from "../../utils/dbConnect";
 import { getSession } from "../../utils/api/get-session";
