@@ -1,4 +1,6 @@
-import '../styles/global.css'
+import { NextUIProvider } from '@nextui-org/react';
+
+import '../styles/global.css';
 
 export default function App({ 
     Component, 
@@ -10,7 +12,8 @@ export default function App({
     // global css style can only be imported here
 
     return (
+        <NextUIProvider disableBaseline={true}>
             <Component {...pageProps} />
-    );
-    
+        </NextUIProvider>
+    );   
 }

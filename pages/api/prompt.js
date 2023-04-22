@@ -1,5 +1,9 @@
+import { Configuration, OpenAIApi } from 'openai';
+
 import { dbConnection } from "../../utils/dbConnect";
 import Post from "../../models/Post";
+import { apiHandler } from "../../utils/api/api-handler";
+import { getSession } from '../../utils/api/get-session';
 // all functions in api and be used as api routing
 // we should not fetch API route from getStaticProps or getStaticPaths 
 // these two function should only include server-side code and never run client-side
@@ -10,30 +14,30 @@ import Post from "../../models/Post";
 
 // api route can also by dynamic
 
-export default async function handler(req, res){
-    const { method } = req;
+const configuration = new Configuration({
+    apiKey: process.env.DALLE_API,
+});
 
-    await dbConnection(); // connect to db
+const openai = new OpenAIApi(configuration);
 
-    switch(method){
-        case "GET":
-            res.status(200).json({
-                status: "success"
-            });
-            break;
-        case "POST":
-            try{
-                const post = new Post({
-                    prompt: req.body.prompt,
-                });
-                await post.save();
-                res.redirect(302, '/posts/post'); // next asks for the appropriate status code
-                // res.status(200).json({ success: true, content: post });
-            } catch(e){
-                console.log(e);
-                res.status(404).json({ success: false });
-            }
-            break;
-    }
+export default apiHandler({
+    get: getImage
+})
+
+async function getImage(req, res){
+
+    const session = await getSession(req, res);
+    const data = await openai.createImage({
+        prompt: req.query.prompt,
+        n: 1,
+        size: "512x512"
+    });
+
+    await session.commit();
+    
+    return res.status(200).json({
+        data: data['data'],
+        query: req.query
+    });
 
 }

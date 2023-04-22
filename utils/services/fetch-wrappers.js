@@ -1,7 +1,7 @@
 import { getConfig } from 'next/config';
 import { userService } from './user-service';
 
-import getRuntimeConfig from '../components/getStaticPath';
+import getRuntimeConfig from '../getStaticPath';
 
 const baseUrl = process.env.BASE_URL;
 
@@ -10,19 +10,23 @@ export const fetchWrapper = {
     post,
 }
 
-function get(url){
+function get(url, query){
     const requestOption = {
         method: "GET",
-        headers: authHeader(url)
+        // headers: authHeader(url)
     };
 
-    return fetch(url, requestOption).then(handleResponse);
+    const urlQuery = url + '?' + new URLSearchParams(query).toString();
+    console.log('query url', urlQuery);
+
+    return fetch(urlQuery, requestOption).then(handleResponse);
 }
 
 function post(url, body){
+
     const requestOption = {
         method: "POST",
-        headers: { 'Content-Type': 'application/json', ...authHeader(url) },
+        headers: { 'Content-Type': 'application/json' }, //, ...authHeader(url) },
         credentials: 'include',
         body: JSON.stringify(body),
     };
@@ -35,6 +39,7 @@ function authHeader(url){
     const user = userService.userValue;
     const isLoggedIn = user && user.token;
     const isApiUrl = url.startsWith('/api');
+
     if (isLoggedIn && isApiUrl) {
         return { Authorization: `Bearer ${user.token}` };
     } else {
@@ -44,7 +49,6 @@ function authHeader(url){
 
 function handleResponse(response){
     return response.text().then(text => {
-        console.log(text);
         const data = text && JSON.parse(text);
         
         if (!response.ok) {
