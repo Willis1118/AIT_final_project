@@ -9,7 +9,7 @@ import Post from '../../models/Post';
 import User from '../../models/User';
 import styles from '../../styles/post.module.css';
 import Layout from "../../components/layout";
-// import { dbConnection } from "../../utils/dbConnect";
+import { getRuntimeConfig } from "../../utils/getStaticPath";
 import { getSession } from "../../utils/api/get-session";
 import { postService } from '../../utils/services/post-service';
 
@@ -22,7 +22,7 @@ export async function getServerSideProps( context ){
 
     // console.log(context.req.headers);
 
-    const response = await fetch('http://localhost:3000/api/post/image-src', {
+    const response = await fetch(`${getRuntimeConfig().apiUrl}/post/image-src`, {
         headers: {
             Authorization: `Bearer ${session.token}`
         }
