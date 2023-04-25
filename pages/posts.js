@@ -5,6 +5,7 @@ import PostCard from "../components/post-card";
 import { getSession } from '../utils/api/get-session';
 import { dbConnection } from "../utils/dbConnect";
 import Post from '../models/Post';
+import User from '../models/User';
 
 export async function getServerSideProps(context){
 
@@ -12,7 +13,8 @@ export async function getServerSideProps(context){
 
     const session = await getSession(context.req, context.res);
 
-    const posts = await Post.find({});
+    const user = await User.findOne(session.user);
+    const posts = await Post.find({creator: user._id});
 
     return {
         props: {
@@ -33,7 +35,7 @@ export default function Posts({ posts, data }){
     return (
         <Layout sessionData={user}>
             {JSON.parse(posts).map((post, idx) => {
-                return <PostCard key={idx} image={post.image} title={post.title} />
+                return <PostCard key={idx} post={post} />
             })}
         </Layout>
     )
