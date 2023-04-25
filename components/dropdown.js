@@ -2,7 +2,7 @@ import { Dropdown, Text, Button, Link } from '@nextui-org/react';
 import { userService } from '../utils/services/user-service';
 import { useRouter } from 'next/router';
 
-export default function AccountMenu({ sessionData, handleLogout }){
+export default function AccountMenu({ sessionData }){
 
     const router = useRouter();
 
@@ -16,10 +16,17 @@ export default function AccountMenu({ sessionData, handleLogout }){
                });
     }
 
+    const onProfile = user => {
+        router.push('/account/main');
+    }
+
     const handleSelection = (e) => {
         const { currentKey } = e;
         if(currentKey === "logout"){
             onLogout(sessionData);
+        }
+        if(currentKey === "profile"){
+            onProfile(sessionData);
         }
     }
 

@@ -26,8 +26,6 @@ export default function Login(){
     // handle form submission
     // calling user service to the wrapped api
     function onSubmit({ email, password }) {
-        console.log('log in session');
-
         return userService.login(email, password)
             .then(() => {
                 // get return url from query parameters or default to '/'

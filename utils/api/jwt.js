@@ -11,6 +11,10 @@ export function jwtMiddleware(req, res){
         getToken: async function fromNextSession(req, res){
             const session = await getSession(req, res);
 
+            if(req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer'){
+                return req.headers.authorization.split(' ')[1];
+            }
+
             return session.token ? session.token : null;
         }
      }).unless({

@@ -1,9 +1,9 @@
 import { Configuration, OpenAIApi } from 'openai';
 
-import { dbConnection } from "../../utils/dbConnect";
-import Post from "../../models/Post";
-import { apiHandler } from "../../utils/api/api-handler";
-import { getSession } from '../../utils/api/get-session';
+// import { dbConnection } from "../../../utils/dbConnect";
+import Post from "../../../models/Post";
+import { apiHandler } from "../../../utils/api/api-handler";
+import { getSession } from '../../../utils/api/get-session';
 // all functions in api and be used as api routing
 // we should not fetch API route from getStaticProps or getStaticPaths 
 // these two function should only include server-side code and never run client-side
@@ -25,19 +25,16 @@ export default apiHandler({
 })
 
 async function getImage(req, res){
-
-    const session = await getSession(req, res);
     const data = await openai.createImage({
         prompt: req.query.prompt,
         n: 1,
-        size: "512x512"
+        size: "512x512",
+        response_format: "b64_json"
     });
 
-    await session.commit();
-    
     return res.status(200).json({
-        data: data['data'],
-        query: req.query
+        data: data['data']['data'],
+        prompt: req.query.prompt
     });
 
 }

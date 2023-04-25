@@ -16,7 +16,11 @@ function get(url, query){
         // headers: authHeader(url)
     };
 
-    const urlQuery = url + '?' + new URLSearchParams(query).toString();
+    let urlQuery = url;
+
+    if(query){
+        urlQuery = url + '?' + new URLSearchParams(query).toString();
+    }
     console.log('query url', urlQuery);
 
     return fetch(urlQuery, requestOption).then(handleResponse);
