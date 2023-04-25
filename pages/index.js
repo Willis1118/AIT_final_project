@@ -63,6 +63,7 @@ export default function Home({ data }){
 
     const handleRegenerate = (prompt, evt) => {
         onSubmit({prompt: prompt});
+        // return postService.
     }
 
     const handleCreate = (image, evt) => {

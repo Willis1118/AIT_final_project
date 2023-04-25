@@ -16,30 +16,18 @@ import { postService } from '../../utils/services/post-service';
 export async function getServerSideProps( context ){
 
     const session = await getSession(context.req, context.res);
-    // const imageSource = postService.getBase64()
-    //                                .then(data => console.log(data))
-    //                                .catch(err => console.log('fetch error'));
-
-    // console.log(context.req.headers);
-
-    const response = await fetch(`${getRuntimeConfig().apiUrl}/post/image-src`, {
-        headers: {
-            Authorization: `Bearer ${session.token}`
-        }
-    });
-    const image = await response.json();
 
     return {
         props: {
             data: session.user ? session.user : null,
-            image: image['image'],
         }
     }
 }
 
-export default function IndividualPost({ data, image }){
+export default function IndividualPost({ data }){
 
     const [user, setUser] = useState(null);
+    const [image, setImage] = useState(null);
     const router = useRouter();
 
     const validationSchema = Yup.object().shape({
@@ -51,7 +39,15 @@ export default function IndividualPost({ data, image }){
     const { register, handleSubmit, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    // const images = JSON.parse(router.query.images);
+    // re-render on mount
+    useEffect(() => {
+        async function fetchImage(){
+            const response = await postService.getBase64();
+            console.log('response in useEffect', response);
+            setImage(response.image);
+        }
+        fetchImage();
+    },[]);
 
     useEffect(() => {
         setUser(data);
@@ -70,7 +66,6 @@ export default function IndividualPost({ data, image }){
                                 router.push('/posts');
                           })
                           .catch(err => console.log(err));
-        
     }
     
     return (
