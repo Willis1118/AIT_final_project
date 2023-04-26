@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import Image from "next/image";
+import { Button, Loading } from "@nextui-org/react";
 
 import Post from '../../models/Post';
 import User from '../../models/User';
@@ -41,12 +42,7 @@ export default function IndividualPost({ data }){
 
     // re-render on mount
     useEffect(() => {
-        async function fetchImage(){
-            const response = await postService.getBase64();
-            console.log('response in useEffect', response);
-            setImage(response.image);
-        }
-        fetchImage();
+        setImage(localStorage.getItem('imageSrc'));
     },[]);
 
     useEffect(() => {
@@ -63,6 +59,7 @@ export default function IndividualPost({ data }){
 
         return postService.createPost(newPost)
                           .then(() => {
+                                localStorage.removeItem('imageSrc');
                                 router.push('/posts');
                           })
                           .catch(err => console.log(err));
@@ -86,8 +83,10 @@ export default function IndividualPost({ data }){
                         <label htmlFor="content" >Content: </label>
                         <textarea name="content" {...register('content')}/>
                         <button disabled={formState.isSubmitting}>
-                            {formState.isSubmitting && <span></span>}
-                            Create
+                            {formState.isSubmitting ? 
+                                <Loading type='spinner' /> :
+                                'Create'
+                            }
                         </button>
                 </form>
             </div>

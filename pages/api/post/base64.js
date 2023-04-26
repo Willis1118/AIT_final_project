@@ -11,11 +11,14 @@ let imageSource = '';
 function postBase64(req, res){
 
     imageSource = req.body.image;
+    console.log('posted b64', imageSource);
 
     return res.status(200).json({});
 };
 
 function getBase64(req, res){
+
+    console.log('get b64', imageSource);
 
     return res.status(200).json({
         image: imageSource

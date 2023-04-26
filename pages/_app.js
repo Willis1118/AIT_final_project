@@ -1,6 +1,15 @@
-import { NextUIProvider } from '@nextui-org/react';
+import { createTheme, NextUIProvider } from '@nextui-org/react';
 
 import '../styles/global.css';
+
+const theme = createTheme({
+    type: 'light',
+    theme: {
+        colors: {
+            primary: '#fff',
+        },
+    }
+})
 
 export default function App({ 
     Component, 
@@ -12,7 +21,7 @@ export default function App({
     // global css style can only be imported here
 
     return (
-        <NextUIProvider disableBaseline={true}>
+        <NextUIProvider disableBaseline={true} theme={theme}>
             <Component {...pageProps} />
         </NextUIProvider>
     );   

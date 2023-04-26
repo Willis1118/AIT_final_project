@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { Button } from '@nextui-org/react';
+import { css, Button, Loading } from '@nextui-org/react';
 
 
 import { useState, useEffect } from 'react';
@@ -30,7 +30,7 @@ export async function getServerSideProps(context){
 export default function Home({ data }){
 
     const [user, setUser] = useState(null);
-    const [images, setImages] = useState(null);
+    const [image, setImage] = useState(null);
     const [prompt, setPrompt] = useState('');
     const router = useRouter();
 
@@ -53,8 +53,9 @@ export default function Home({ data }){
         return postService.getImage(prompt)
                .then(data => {
                     console.log('receive data', data['data']);
-                    setImages(data['data']);
+                    setImage(data['data'][0]['b64_json']);
                     setPrompt(prompt);
+                    postService.postImage(data['data'][0]['b64_json'], prompt, user).catch(err => console.log(err));
                })
                .catch((err) => {
                     console.log(err);
@@ -67,10 +68,10 @@ export default function Home({ data }){
     }
 
     const handleCreate = (image, evt) => {
-        return postService.postBase64(image)
-                          .then(data => {
-                                router.push('/posts/post');
-                          });
+
+        localStorage.setItem('imageSrc', image);
+        router.push('/posts/post');
+
     }
 
     console.log("frontend session", user);
@@ -91,16 +92,20 @@ export default function Home({ data }){
                             placeholder="Who lurks into your dream..." 
                         />
                         <div>{errors.prompt?.message}</div>
-                        <button disabled={formState.isSubmitting}>Submit</button>
+                        <button disabled={formState.isSubmitting} type='submit'>{
+                            formState.isSubmitting ? 
+                            <Loading type="spinner" size='sm'/> :
+                            'Submit'
+                        }</button>
                     </form>
+                    { image ? 
+                    <div className={styles['image-card']}>
+                        <ImageCard image={image} prompt={prompt}/> 
+                        <button onClick={evt => handleRegenerate(prompt, evt)}>Regenerate</button>
+                        <button onClick={evt => handleCreate(image, evt)}>Create Post</button>
+                    </div> : 
+                    (<></>)}
                 </div>
-                { images ? 
-                <div>
-                    <ImageCard src={`data:image/png;base64, ${images[0]['b64_json']}`} prompt={prompt}/> 
-                    <Button bordered color='#333' onPress={evt => handleRegenerate(prompt, evt)}>Regenerate</Button>
-                    <Button bordered color='#333' onPress={evt => handleCreate(images[0]['b64_json'], evt)}>Create Post</Button>
-                </div> : 
-                (<></>)}
             </Layout>
         </>
     )

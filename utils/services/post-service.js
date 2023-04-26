@@ -3,8 +3,7 @@ import { fetchWrapper } from "./fetch-wrappers"
 
 export const postService = {
     getImage,
-    postBase64,
-    getBase64,
+    postImage,
     createPost,
 }
 
@@ -19,15 +18,8 @@ function getImage(prompt){
            });
 }
 
-function postBase64(image){
-    return fetchWrapper.post('/api/post/image-src', { image: image })
-                       .then(data => {
-                            return data;
-                       });
-}
-
-function getBase64(){
-    return fetchWrapper.get('/api/post/image-src')
+function postImage(image, prompt, user){
+    return fetchWrapper.post('/api/post/image', { image: image, prompt: prompt, user: user })
                        .then(data => {
                             return data;
                        });

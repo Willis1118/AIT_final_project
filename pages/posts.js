@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Loading } from "@nextui-org/react";
 
 import Layout from "../components/layout";
 import PostCard from "../components/post-card";
@@ -12,13 +13,15 @@ export async function getServerSideProps(context){
     await dbConnection();
 
     const session = await getSession(context.req, context.res);
-
-    const user = await User.findOne(session.user);
-    const posts = await Post.find({creator: user._id});
+    let user, posts;
+    if(session.user){
+        user = await User.findOne(session.user);
+        posts = await Post.find({creator: user._id});
+    }
 
     return {
         props: {
-            posts: JSON.stringify(posts),
+            posts: posts ? JSON.stringify(posts) : null,
             data: session.user ? session.user : null
         }
     };
@@ -34,9 +37,12 @@ export default function Posts({ posts, data }){
 
     return (
         <Layout sessionData={user}>
-            {JSON.parse(posts).map((post, idx) => {
-                return <PostCard key={idx} post={post} />
-            })}
+            {posts ? 
+                JSON.parse(posts).map((post, idx) => {
+                    return <PostCard key={idx} post={post} />
+                })
+            :   <Loading type='spinner' />
+            }
         </Layout>
     )
 }
