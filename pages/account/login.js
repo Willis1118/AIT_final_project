@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -56,6 +57,7 @@ export default function Login(){
                                 'Login'
                             }
                         </Button>
+                        <p>New to here? <Link href="/account/signup">Sign up</Link></p>
                     </form>
                 </div>
             </Layout>
