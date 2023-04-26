@@ -30,8 +30,13 @@ async function authenticate(req, res) {
     // create a jwt token that is valid for 7 days
     const token = jwt.sign({ sub: user._id }, serverRuntimeConfig.secret, { expiresIn: '7d' });
 
-    session.user = user;
-    await session.commit();
+    try{
+        session.user = user;
+        session.token = token;
+        await session.commit();
+    }catch(e){
+        console.log('commit error', e);
+    }
 
     // return basic user details and token
     return res.status(200).json({

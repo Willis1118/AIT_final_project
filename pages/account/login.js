@@ -1,11 +1,13 @@
+import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { Button, Loading } from "@nextui-org/react";
 
 
-import { userService } from '../../utils/user-service';
+import { userService } from '../../utils/services/user-service';
 import Layout from "../../components/layout";
 import styles from "../../styles/login.module.css"
 
@@ -26,8 +28,6 @@ export default function Login(){
     // handle form submission
     // calling user service to the wrapped api
     function onSubmit({ email, password }) {
-        console.log('log in session');
-
         return userService.login(email, password)
             .then(() => {
                 // get return url from query parameters or default to '/'
@@ -51,10 +51,13 @@ export default function Login(){
                         <label htmlFor="password" >Password: </label>
                         <input type="password" name="password" {...register('password')}/>
                         <div>{errors.password?.message}</div>
-                        <button disabled={formState.isSubmitting}>
-                            {formState.isSubmitting && <span></span>}
-                            Login
-                        </button>
+                        <Button disabled={formState.isSubmitting} type='submit'>
+                            {formState.isSubmitting ? 
+                                <Loading type='spinner' /> :
+                                'Login'
+                            }
+                        </Button>
+                        <p>New to here? <Link href="/account/signup">Sign up</Link></p>
                     </form>
                 </div>
             </Layout>

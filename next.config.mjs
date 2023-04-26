@@ -8,7 +8,16 @@ const nextConfig = {
     },
     serverRuntimeConfig: {
         secret: 'A SECRET KEY',
-    }
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'oaidalleapiprodscus.blob.core.windows.net',
+                pathname: '/private/**'
+            }
+        ]
+    },
 }
 
 export default nextConfig;

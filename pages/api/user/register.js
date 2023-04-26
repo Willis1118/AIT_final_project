@@ -1,10 +1,14 @@
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
-import { getSession } from '../../../utils/api/get-session';
+import getConfig from 'next/config';
 
+import { getSession } from '../../../utils/api/get-session';
 import { apiHandler } from '../../../utils/api/api-handler';
 import { dbConnection } from '../../../utils/dbConnect';
 import User from '../../../models/User';
+
+const { serverRuntimeConfig } = getConfig();
 
 export default apiHandler({
     post: register
@@ -28,9 +32,12 @@ async function register(req, res){
     user._id = new mongoose.Types.ObjectId();
 
     const newUser = new User(user);
+    const token = jwt.sign({ sub: user._id }, serverRuntimeConfig.secret, { expiresIn: '7d' });
+
     try{
         await newUser.save();
         session.user = newUser;
+        session.token = token;
         await session.commit();
     }catch(e){
         console.log(e);

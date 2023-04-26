@@ -2,19 +2,27 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { css, Button, Loading } from '@nextui-org/react';
+
 
 import { useState, useEffect } from 'react';
 
 import styles from '../styles/home.module.css'
 import Layout from '../components/layout';
+import ImageCard from '../components/image-card';
 import { getSession } from '../utils/api/get-session';
+import { postService } from '../utils/services/post-service';
+import { userService } from '../utils/services/user-service';
 
 export async function getServerSideProps(context){
     const session = await getSession(context.req, context.res);
 
     return {
         props: {
-            data: session.user ? session.user : null
+            data: session.user ? session.user : null,
         }
     };
 }
@@ -22,10 +30,49 @@ export async function getServerSideProps(context){
 export default function Home({ data }){
 
     const [user, setUser] = useState(null);
-    
+    const [image, setImage] = useState(null);
+    const [prompt, setPrompt] = useState('');
+    const router = useRouter();
+
     useEffect(() => {
         setUser(data);
     }, [data]);
+
+    const validationSchema = Yup.object().shape({
+        prompt: Yup.string().required('prompt is required')
+    });
+
+    const formOptions = { resolver: yupResolver(validationSchema) };
+
+    // get functions to build form with useForm() hook
+    const { register, handleSubmit, formState } = useForm(formOptions);
+    const { errors } = formState;
+
+    const onSubmit = ({ prompt }) => {
+
+        return postService.getImage(prompt)
+               .then(data => {
+                    console.log('receive data', data['data']);
+                    setImage(data['data'][0]['b64_json']);
+                    setPrompt(prompt);
+                    postService.postImage(data['data'][0]['b64_json'], prompt, user).catch(err => console.log(err));
+               })
+               .catch((err) => {
+                    console.log(err);
+               });
+    }
+
+    const handleRegenerate = (prompt, evt) => {
+        onSubmit({prompt: prompt});
+        // return postService.
+    }
+
+    const handleCreate = (image, evt) => {
+
+        localStorage.setItem('imageSrc', image);
+        router.push('/posts/post');
+
+    }
 
     console.log("frontend session", user);
 
@@ -36,16 +83,28 @@ export default function Home({ data }){
                     <title>Dream Diffusion</title>
                 </Head>
                 <div className={styles.container}>
-                    <form action="/api/prompt" method="POST" className={styles.form}>
+                    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                         <label htmlFor="description" className={styles.label}> Start Dreaming: <a>(or should we do it for you?)</a></label>
                         <input 
+                            {...register('prompt')}
                             type="text" 
                             name="prompt" 
                             placeholder="Who lurks into your dream..." 
-                            required={true}
                         />
-                        <input type="submit" />
+                        <div>{errors.prompt?.message}</div>
+                        <button disabled={formState.isSubmitting} type='submit'>{
+                            formState.isSubmitting ? 
+                            <Loading type="spinner" size='sm'/> :
+                            'Submit'
+                        }</button>
                     </form>
+                    { image ? 
+                    <div className={styles['image-card']}>
+                        <ImageCard image={image} prompt={prompt}/> 
+                        <button onClick={evt => handleRegenerate(prompt, evt)}>Regenerate</button>
+                        <button onClick={evt => handleCreate(image, evt)}>Create Post</button>
+                    </div> : 
+                    (<></>)}
                 </div>
             </Layout>
         </>

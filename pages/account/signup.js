@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { Button, Loading } from '@nextui-org/react';
 
-import { userService } from '../../utils/user-service';
+import { userService } from '../../utils/services/user-service';
 import Layout from "../../components/layout";
 import styles from "../../styles/login.module.css";
 
@@ -62,10 +63,12 @@ export default function Login(){
                         <label htmlFor="password" >Password: </label>
                         <input type="password" name="password" {...register('password')}/>
                         <div>{errors.password?.message}</div>
-                        <button disabled={formState.isSubmitting}>
-                            {formState.isSubmitting && <span></span>}
-                            Sign Up
-                        </button>
+                        <Button disabled={formState.isSubmitting} type='submit'>
+                            {formState.isSubmitting ? 
+                                <Loading type='spinner' /> :
+                                'Sign Up'
+                            }
+                        </Button>
                         <p>Already have an account? <Link href="/account/login">Log in</Link></p>
                     </form>
                 </div>

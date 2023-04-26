@@ -17,13 +17,17 @@ export default function Posts({ data }){
 
     const [user, setUser] = useState(null);
     
+    const { firstName, lastName, email } = data;
+
     useEffect(() => {
         setUser(data);
     }, [data]);
 
     return (
         <Layout sessionData={user}>
-            <h1>This will be the account detail page</h1>
+            <h1>All your dreams</h1>
+            <h2>{firstName} {lastName}</h2>
+            <p>{email}</p>
         </Layout>
     )
 }
