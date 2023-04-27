@@ -1,6 +1,5 @@
 import { fetchWrapper } from "./fetch-wrappers"
 
-
 export const postService = {
     getImage,
     postImage,

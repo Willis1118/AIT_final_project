@@ -1,9 +1,4 @@
-import { getConfig } from 'next/config';
 import { userService } from './user-service';
-
-import getRuntimeConfig from '../getStaticPath';
-
-const baseUrl = process.env.BASE_URL;
 
 export const fetchWrapper = {
     get,
@@ -36,19 +31,6 @@ function post(url, body){
     };
 
     return fetch(url, requestOption).then(handleResponse);
-}
-
-function authHeader(url){
-    // return auth header with jwt if user is logged in and request is to the api url
-    const user = userService.userValue;
-    const isLoggedIn = user && user.token;
-    const isApiUrl = url.startsWith('/api');
-
-    if (isLoggedIn && isApiUrl) {
-        return { Authorization: `Bearer ${user.token}` };
-    } else {
-        return {};
-    }
 }
 
 function handleResponse(response){

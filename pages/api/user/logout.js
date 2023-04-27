@@ -12,7 +12,7 @@ async function logout(req, res){
 
     try{
         await session.destroy();
-    }catch(e){
+    }catch(e){ // keep this catch will enabling logout
         console.log('session commit error', e);
     }
 

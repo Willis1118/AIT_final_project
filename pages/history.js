@@ -39,7 +39,7 @@ export default function History({ images, data }){
         <Layout sessionData={user}>
             {images ? 
                 JSON.parse(images).map((image, idx) => {
-                    if(idx < 10){
+                    if(idx < 8){
                         return <ImageCard key={idx} image={image['image']} prompt={image['prompt']} />
                     }
                 })

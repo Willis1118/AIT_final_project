@@ -33,7 +33,7 @@ export default function Login(){
                 // get return url from query parameters or default to '/'
                 router.push("/");
             })
-            .catch(err => console.log(err));
+            .catch(err => {console.log(err); router.push('/error'); });
     }
 
     return (

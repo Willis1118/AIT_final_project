@@ -13,7 +13,7 @@ export async function getServerSideProps(context){
     };
 }
 
-export default function Posts({ data }){
+export default function Account({ data }){
 
     const [user, setUser] = useState(null);
     
