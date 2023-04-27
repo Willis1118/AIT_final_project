@@ -69,7 +69,7 @@ export default function Home({ data }){
 
         localStorage.setItem('imageSrc', image);
         localStorage.setItem('prompt', prompt);
-        router.push('/posts/post');
+        router.push('/post');
 
     }
 

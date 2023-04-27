@@ -6,12 +6,12 @@ import * as Yup from 'yup';
 import Head from "next/head";
 import { Loading } from "@nextui-org/react";
 
-import User from '../../models/User';
-import styles from '../../styles/post.module.css';
-import Layout from "../../components/layout";
-import ImageCard from "../../components/image-card";
-import { getSession } from "../../utils/api/get-session";
-import { postService } from '../../utils/services/post-service';
+import User from '../models/User';
+import styles from '../styles/post.module.css';
+import Layout from "../components/layout";
+import ImageCard from "../components/image-card";
+import { getSession } from "../utils/api/get-session";
+import { postService } from '../utils/services/post-service';
 
 export async function getServerSideProps( context ){
 
