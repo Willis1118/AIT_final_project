@@ -17,7 +17,7 @@ export async function getServerSideProps(context){
     let user, images;
     if(session.user){
         user = await User.findOne(session.user);
-        images = await Image.find({creator: user}).sort({createdAt: -1}).limit(6);
+        images = await Image.find({creator: user}).sort({createdAt: -1}).limit(2);
     }
 
     return {
