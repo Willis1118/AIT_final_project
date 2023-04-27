@@ -11,13 +11,14 @@ export default function PostCard({ post }){
             <div className={styles['image-container']}>
                 <Image
                     src={`data:image/png;base64, ${post.image}`}
-                    width={256}
-                    height={256}
+                    width={300}
+                    height={300}
                     alt=''
                     priority
                 />
                 <div className={styles.prompt}>
                     <h2>{post.title}</h2>
+                    <p>{post.content}</p>
                     <p>{post.createdAt}</p>
                 </div>
             </div>

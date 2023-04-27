@@ -10,8 +10,8 @@ export default function ImageCard({ image, prompt }){
             <div className={styles['image-container']}>
                 <Image 
                     src = {`data:image/png;base64, ${image}`}
-                    width={256}
-                    height={256}
+                    width={300}
+                    height={300}
                     alt=''
                     priority
                 />

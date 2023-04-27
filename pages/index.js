@@ -35,7 +35,8 @@ export default function Home({ data }){
     const router = useRouter();
 
     useEffect(() => {
-        setUser(data);
+        if(data !== null)
+            setUser(data);
     }, [data]);
 
     const validationSchema = Yup.object().shape({

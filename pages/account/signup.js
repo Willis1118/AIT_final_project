@@ -10,7 +10,7 @@ import { userService } from '../../utils/services/user-service';
 import Layout from "../../components/layout";
 import styles from "../../styles/login.module.css";
 
-export default function Login(){
+export default function Signup(){
     const router = useRouter();
 
     // form validation rules 
