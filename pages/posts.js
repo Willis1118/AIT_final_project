@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Loading } from "@nextui-org/react";
+import { Loading, Grid } from "@nextui-org/react";
 
 import Layout from "../components/layout";
 import PostCard from "../components/post-card";
@@ -37,12 +37,18 @@ export default function Posts({ posts, data }){
 
     return (
         <Layout sessionData={user}>
-            {posts ? 
-                JSON.parse(posts).map((post, idx) => {
-                    return <PostCard key={idx} post={post} />
-                })
-            :   <Loading type='spinner' />
-            }
+            <Grid.Container gap={3} justify="center">
+                {posts ? 
+                    JSON.parse(posts).map((post, idx) => {
+                        return (
+                            <Grid key={idx}>
+                                <PostCard post={post} />
+                            </Grid>
+                        )
+                    })
+                :   <></>
+                }
+            </Grid.Container>
         </Layout>
     )
 }

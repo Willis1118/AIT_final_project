@@ -17,17 +17,23 @@ export default function Account({ data }){
 
     const [user, setUser] = useState(null);
     
-    const { firstName, lastName, email } = data;
+    const { firstName, lastName, email } = data ? data : { firstName: '', lastName: '', email: ''};
 
     useEffect(() => {
         setUser(data);
     }, [data]);
 
     return (
+            
         <Layout sessionData={user}>
-            <h1>All your dreams</h1>
-            <h2>{firstName} {lastName}</h2>
-            <p>{email}</p>
+            {data ? 
+                <>
+                    <h1>All your dreams</h1>
+                    <h2>{firstName} {lastName}</h2>
+                    <p>{email}</p>
+                </>
+            : <></>}
         </Layout>
+                
     )
 }

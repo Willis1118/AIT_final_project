@@ -23,7 +23,7 @@ export default function About({ data }){
 
     return (
         <Layout sessionData={user}>
-            <h1>This will be the about page</h1>
+            <h1>Final project for AIT</h1>
         </Layout>
     )
 }

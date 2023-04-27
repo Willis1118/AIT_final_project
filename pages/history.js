@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Grid } from "@nextui-org/react";
 
 import Layout from "../components/layout";
 import { getSession } from '../utils/api/get-session';
@@ -16,7 +17,7 @@ export async function getServerSideProps(context){
     let user, images;
     if(session.user){
         user = await User.findOne(session.user);
-        images = await Image.find({creator: user});
+        images = await Image.find({creator: user}).sort({createdAt: -1}).limit(9);
     }
 
     return {
@@ -37,14 +38,20 @@ export default function History({ images, data }){
 
     return (
         <Layout sessionData={user}>
-            {images ? 
-                JSON.parse(images).map((image, idx) => {
-                    if(idx < 8){
-                        return <ImageCard key={idx} image={image['image']} prompt={image['prompt']} />
-                    }
-                })
-            :   <Loading type='spinner' />
+            
+            {images ?
+                <Grid.Container gap={3} justify="center">
+                    {JSON.parse(images).map((image, idx) => {
+                        return (
+                            <Grid key={idx} >
+                                <ImageCard image={image['image']} prompt={image['prompt']} />
+                            </Grid>
+                        )
+                    })}
+                </Grid.Container>
+                : <></>
             }
+            
         </Layout>
     )
 }

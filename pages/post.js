@@ -75,26 +75,28 @@ export default function IndividualPost({ data }){
                 <title>Create Post</title>
             </Head>
             <Layout sessionData={user}>
-                <div className={styles.container}>
-                    <ImageCard
-                            image={image}
-                            prompt={prompt}
-                    />
-                    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-                        <h2>Create Your Dream</h2>
-                        <label htmlFor="title" >Title: </label>
-                        <input type="text" name="title" {...register('title')}/>
-                        <div>{errors.title?.message}</div>
-                        <label htmlFor="content" >Content: </label>
-                        <textarea name="content" {...register('content')}/>
-                        <button disabled={formState.isSubmitting}>
-                            {formState.isSubmitting ? 
-                                <Loading type='spinner' /> :
-                                'Create'
-                            }
-                        </button>
-                    </form>
-                </div>
+                { user ? 
+                    <div className={styles.container}>
+                        <ImageCard
+                                image={image}
+                                prompt={prompt}
+                        />
+                        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                            <h2>Create Your Dream</h2>
+                            <label htmlFor="title" >Title: </label>
+                            <input type="text" name="title" {...register('title')}/>
+                            <div>{errors.title?.message}</div>
+                            <label htmlFor="content" >Content: </label>
+                            <textarea name="content" {...register('content')}/>
+                            <button disabled={formState.isSubmitting}>
+                                {formState.isSubmitting ? 
+                                    <Loading type='spinner' /> :
+                                    'Create'
+                                }
+                            </button>
+                        </form>
+                    </div>
+                : <></>}
             </Layout>
         </>
     )
