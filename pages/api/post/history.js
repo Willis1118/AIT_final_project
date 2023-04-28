@@ -15,7 +15,7 @@ async function getImages(req, res){
     await dbConnection();
     
     const newUser = await User.findOne(user);
-    const images = await Image.find({ creator: newUser }).sort({createdAt: -1}).limit(9);
+    const images = await Image.find({ creator: newUser }).sort({createdAt: -1}).limit(4);
 
     return res.status(200).json({
         images: JSON.stringify(images),
@@ -28,7 +28,7 @@ async function getPosts(req, res){
     await dbConnection();
 
     const newUser = await User.findOne({ email: email });
-    const posts = await Post.find({ creator: newUser }).sort({createdAt: -1}).limit(9);
+    const posts = await Post.find({ creator: newUser }).sort({createdAt: -1}).limit(4);
 
     return res.status(200).json({
         posts: JSON.stringify(posts)
@@ -37,6 +37,6 @@ async function getPosts(req, res){
 
 export const config = {
     api: {
-        responseLimit: '5mb',
+        responseLimit: '4.5mb',
     }
 };
