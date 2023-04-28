@@ -7,6 +7,7 @@ import PostCard from "../components/post-card";
 import { getSession } from '../utils/api/get-session';
 import { dbConnection } from "../utils/dbConnect";
 import { postService } from "../utils/services/post-service";
+import styles from '../styles/account.module.css';
 
 export async function getServerSideProps(context){
 
@@ -40,24 +41,28 @@ export default function Posts({ data }){
     }, [data]);
 
     return (
-        <Layout sessionData={user}>
-            <Head>
-                <title>Posts</title>
-            </Head>
-            <Grid.Container gap={3} justify="center">
-                {posts ? 
-                    posts.map((post, idx) => {
-                        return (
-                            <Grid key={idx}>
-                                <PostCard post={post} />
-                            </Grid>
-                        )
-                    })
-                : (<Grid>
-                    <Loading color="secondary" size='lg'>Please wait while we fetch the data</Loading>
-                  </Grid>)
-                }
-            </Grid.Container>
-        </Layout>
+        
+            <Layout sessionData={user}>
+                <Head>
+                    <title>Posts</title>
+                </Head>
+                <div className={styles.container}>
+                    <Grid.Container gap={3} justify="center">
+                        {posts ? 
+                            posts.map((post, idx) => {
+                                return (
+                                    <Grid key={idx}>
+                                        <PostCard post={post} />
+                                    </Grid>
+                                )
+                            })
+                        : (<Grid>
+                            <Loading color="secondary" size='lg'>Please wait while we fetch the data</Loading>
+                        </Grid>)
+                        }
+                    </Grid.Container>
+                </div>
+            </Layout>
     )
+
 }

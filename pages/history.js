@@ -5,10 +5,9 @@ import Head from "next/head";
 import Layout from "../components/layout";
 import { getSession } from '../utils/api/get-session';
 import { dbConnection } from "../utils/dbConnect";
-import User from '../models/User';
-import Image from '../models/Image';
 import ImageCard from "../components/image-card";
 import { postService } from "../utils/services/post-service";
+import styles from '../styles/account.module.css';
 
 export async function getServerSideProps(context){
 
@@ -49,25 +48,28 @@ export default function History({ data }){
     }, [data]);
 
     return (
-        <Layout sessionData={user}>
-            <Head>
-                <title>History</title>
-            </Head>
-            <Grid.Container gap={3} justify="center">
-                {images ?
-                        images.map((image, idx) => {
-                            return (
-                                <Grid key={idx} >
-                                    <ImageCard image={image['image']} prompt={image['prompt']} />
-                                </Grid>
-                            )
-                        })
-                    : (<Grid>
-                        <Loading color="secondary" size='lg'>Please wait while we fetch the data</Loading>
-                      </Grid>)
-                }
-            </Grid.Container>
-            
-        </Layout>
+        
+            <Layout sessionData={user}>
+                <Head>
+                    <title>History</title>
+                </Head>
+                <div className={styles.container}>
+                    <Grid.Container gap={3} justify="center">
+                        {images ?
+                                images.map((image, idx) => {
+                                    return (
+                                        <Grid key={idx} >
+                                            <ImageCard image={image['image']} prompt={image['prompt']} />
+                                        </Grid>
+                                    )
+                                })
+                            : (<Grid>
+                                <Loading color="secondary" size='lg'>Please wait while we fetch the data</Loading>
+                            </Grid>)
+                        }
+                    </Grid.Container>
+                </div>
+            </Layout>
+        
     )
 }
