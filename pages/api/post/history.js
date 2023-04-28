@@ -37,6 +37,6 @@ async function getPosts(req, res){
 
 export const config = {
     api: {
-        responseLimit: '15mb',
+        responseLimit: '5mb',
     }
 };

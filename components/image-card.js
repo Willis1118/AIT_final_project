@@ -13,6 +13,7 @@ export default function ImageCard({ image, prompt }){
                     height={300}
                     alt=''
                     priority
+                    quality={15}
                 />
                 <div className={styles.prompt}>
                     <p>{prompt}</p>
