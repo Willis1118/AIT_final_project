@@ -15,6 +15,7 @@ export default function PostCard({ post }){
                     height={300}
                     alt=''
                     priority
+                    quality={15}
                 />
                 <div className={styles.prompt}>
                     <h2>{post.title}</h2>

@@ -1,9 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 
-// import { dbConnection } from "../../../utils/dbConnect";
-import Post from "../../../models/Post";
 import { apiHandler } from "../../../utils/api/api-handler";
-import { getSession } from '../../../utils/api/get-session';
 // all functions in api and be used as api routing
 // we should not fetch API route from getStaticProps or getStaticPaths 
 // these two function should only include server-side code and never run client-side

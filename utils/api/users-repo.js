@@ -1,5 +1,3 @@
-import mongoose from 'mongoose';
-
 import User from '../../models/User';
 import { dbConnection } from '../dbConnect';
 

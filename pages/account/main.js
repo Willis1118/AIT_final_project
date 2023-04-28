@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 
 import Layout from "../../components/layout";
 import { getSession } from '../../utils/api/get-session';
+import styles from '../../styles/account.module.css';
 
 export async function getServerSideProps(context){
     const session = await getSession(context.req, context.res);
@@ -13,11 +15,11 @@ export async function getServerSideProps(context){
     };
 }
 
-export default function Posts({ data }){
+export default function Account({ data }){
 
     const [user, setUser] = useState(null);
     
-    const { firstName, lastName, email } = data;
+    const { firstName, lastName, email } = data ? data : { firstName: '', lastName: '', email: ''};
 
     useEffect(() => {
         setUser(data);
@@ -25,9 +27,19 @@ export default function Posts({ data }){
 
     return (
         <Layout sessionData={user}>
-            <h1>All your dreams</h1>
-            <h2>{firstName} {lastName}</h2>
-            <p>{email}</p>
+            {data ? 
+
+                <>  
+                    <Head>
+                        <title>{firstName} {lastName}</title>
+                    </Head>
+                    <div className={styles.container}>
+                        <h1>All your dreams</h1>
+                        <h2>{firstName} {lastName}</h2>
+                        <p>{email}</p>
+                    </div>
+                </>
+            : <></>}
         </Layout>
     )
 }

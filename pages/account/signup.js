@@ -39,18 +39,19 @@ export default function Signup(){
                 // alertService.success('Registration successful', { keepAfterRouteChange: true });
                 router.push('/');
             })
-            .catch(err => console.log(err));
+            .catch(err => {console.log(err); router.push('/error'); });
     }
 
     return (
         <>
             <Head>
-                <title>Signup</title>
+                <title>Sign Up</title>
             </Head>
             <Layout>
                 <div className={styles.container}>
                     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                         <h2>Welcome to Dream Diffusion</h2>
+                        <p>Sign up to create your dreams</p>
                         <label htmlFor="firstname" >First Name: </label>
                         <input type="text" name="firstname" {...register('firstName')}/>
                         <div>{errors.firstName?.message}</div>

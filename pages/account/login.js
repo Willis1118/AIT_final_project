@@ -10,9 +10,12 @@ import { Button, Loading } from "@nextui-org/react";
 import { userService } from '../../utils/services/user-service';
 import Layout from "../../components/layout";
 import styles from "../../styles/login.module.css"
+import { useState } from "react";
 
 export default function Login(){
     const router = useRouter();
+
+    const [errorMsg, setErrorMsg] = useState('');
 
     // form validation rules 
     const validationSchema = Yup.object().shape({
@@ -33,7 +36,14 @@ export default function Login(){
                 // get return url from query parameters or default to '/'
                 router.push("/");
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                if(err === 'Username or password is incorrect'){
+                    setErrorMsg(err);
+                }
+                else{
+                    router.push('/error'); 
+                }
+            });
     }
 
     return (
@@ -46,11 +56,12 @@ export default function Login(){
                     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                         <h2>Welcome to Dream Diffusion</h2>
                         <label htmlFor="username" >Email: </label>
-                        <input type="text" name="email" {...register('email')}/>
+                        <input type="text" name="email" {...register('email')} onChange={() => setErrorMsg('')}/>
                         <div>{errors.email?.message}</div>
                         <label htmlFor="password" >Password: </label>
-                        <input type="password" name="password" {...register('password')}/>
+                        <input type="password" name="password" {...register('password')} onChange={() => setErrorMsg('')}/>
                         <div>{errors.password?.message}</div>
+                        <div>{errorMsg}</div>
                         <Button disabled={formState.isSubmitting} type='submit'>
                             {formState.isSubmitting ? 
                                 <Loading type='spinner' /> :

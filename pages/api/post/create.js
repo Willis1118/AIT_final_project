@@ -10,8 +10,6 @@ async function create(req, res){
 
     await dbConnection();
 
-    console.log(req.body);
-
     const post = new Post(req.body);
 
     try{

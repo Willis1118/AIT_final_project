@@ -1,48 +1,63 @@
 import { useState, useEffect } from "react";
-import { Loading } from "@nextui-org/react";
+import { Loading, Grid } from "@nextui-org/react";
+import Head from "next/head";
 
 import Layout from "../components/layout";
 import PostCard from "../components/post-card";
 import { getSession } from '../utils/api/get-session';
 import { dbConnection } from "../utils/dbConnect";
-import Post from '../models/Post';
-import User from '../models/User';
+import { postService } from "../utils/services/post-service";
 
 export async function getServerSideProps(context){
 
     await dbConnection();
 
     const session = await getSession(context.req, context.res);
-    let user, posts;
-    if(session.user){
-        user = await User.findOne(session.user);
-        posts = await Post.find({creator: user._id});
-    }
 
     return {
         props: {
-            posts: posts ? JSON.stringify(posts) : null,
             data: session.user ? session.user : null
         }
     };
 }
 
-export default function Posts({ posts, data }){
+export default function Posts({ data }){
 
     const [user, setUser] = useState(null);
+    const [posts, setPosts] = useState(null);
     
     useEffect(() => {
         setUser(data);
+
+        const fetchPosts = async () => {
+            const response = await postService.getPosts(data.email);
+            const postsSrc = JSON.parse(response['posts']);
+            setPosts(postsSrc);
+        }
+        
+        fetchPosts();
+        
     }, [data]);
 
     return (
         <Layout sessionData={user}>
-            {posts ? 
-                JSON.parse(posts).map((post, idx) => {
-                    return <PostCard key={idx} post={post} />
-                })
-            :   <Loading type='spinner' />
-            }
+            <Head>
+                <title>Posts</title>
+            </Head>
+            <Grid.Container gap={3} justify="center">
+                {posts ? 
+                    posts.map((post, idx) => {
+                        return (
+                            <Grid key={idx}>
+                                <PostCard post={post} />
+                            </Grid>
+                        )
+                    })
+                : (<Grid>
+                    <Loading color="secondary" size='lg'>Please wait while we fetch the data</Loading>
+                  </Grid>)
+                }
+            </Grid.Container>
         </Layout>
     )
 }

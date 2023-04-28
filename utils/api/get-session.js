@@ -1,8 +1,7 @@
 import nextSession from "next-session";
 import RedisStore from 'connect-redis';
 import Redis from "ioredis";
-import { expressSession, promisifyStore } from "next-session/lib/compat";
-import session from "express-session";
+import { promisifyStore } from "next-session/lib/compat";
 
 const redisClient = new Redis(process.env.REDIS_URI);
 

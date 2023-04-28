@@ -1,4 +1,4 @@
-import { Dropdown, Text, Button, Link } from '@nextui-org/react';
+import { Dropdown, Text } from '@nextui-org/react';
 import { userService } from '../utils/services/user-service';
 import { useRouter } from 'next/router';
 
