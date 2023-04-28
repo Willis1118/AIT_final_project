@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import Head from "next/head";
-import { Loading } from "@nextui-org/react";
+import { Button, Loading } from "@nextui-org/react";
 
 import User from '../models/User';
 import styles from '../styles/post.module.css';
@@ -88,12 +88,12 @@ export default function IndividualPost({ data }){
                             <div>{errors.title?.message}</div>
                             <label htmlFor="content" >Content: </label>
                             <textarea name="content" {...register('content')}/>
-                            <button disabled={formState.isSubmitting}>
+                            <Button disabled={formState.isSubmitting} type='submit'>
                                 {formState.isSubmitting ? 
                                     <Loading type='spinner' /> :
                                     'Create'
                                 }
-                            </button>
+                            </Button>
                         </form>
                     </div>
                 : <></>}

@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { Loading } from '@nextui-org/react';
-import { useState, useEffect } from 'react';
+import { Button, Loading, Grid } from '@nextui-org/react';
+import { useState, useEffect, useRef } from 'react';
 
 import styles from '../styles/home.module.css'
 import Layout from '../components/layout';
@@ -27,11 +27,13 @@ export default function Home({ data }){
     const [user, setUser] = useState(null);
     const [image, setImage] = useState(null);
     const [prompt, setPrompt] = useState('');
+    const [fetch, setFetch] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-        if(data !== null)
-            setUser(data);
+        
+        setUser(data);
+
     }, [data]);
 
     const validationSchema = Yup.object().shape({
@@ -45,11 +47,13 @@ export default function Home({ data }){
     const { errors } = formState;
 
     const onSubmit = ({ prompt }) => {
+        setFetch(true);
 
-        return postService.getImage(prompt)
+        return postService.getGeneratedImage(prompt)
                .then(data => {
                     setImage(data['data'][0]['b64_json']);
                     setPrompt(prompt);
+                    setFetch(false);
                     postService.postImage(data['data'][0]['b64_json'], prompt, user).catch(err => console.log(err));
                })
                .catch((err) => {
@@ -62,6 +66,7 @@ export default function Home({ data }){
     }
 
     const handleRegenerate = (prompt, evt) => {
+        console.log(formState.isSubmitted);
         onSubmit({prompt: prompt});
     }
 
@@ -100,8 +105,14 @@ export default function Home({ data }){
                     { image ? 
                     <div className={styles['image-card']}>
                         <ImageCard image={image} prompt={prompt}/> 
-                        <button onClick={evt => handleRegenerate(prompt, evt)}>Regenerate</button>
-                        <button onClick={evt => handleCreate(image, prompt, evt)}>Create Post</button>
+                        <Grid.Container gap={5} justify='center'>
+                            <Grid><Button auto onPress={evt => handleRegenerate(prompt, evt)}>
+                                { fetch ? 
+                                <Loading type="spinner" size='sm'/> :
+                                'Regenerate' }
+                            </Button></Grid>
+                            <Grid><Button auto onPress={evt => handleCreate(image, prompt, evt)}>Create Post</Button></Grid>
+                        </Grid.Container>
                     </div> : 
                     (<></>)}
                 </div>

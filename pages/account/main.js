@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 
 import Layout from "../../components/layout";
 import { getSession } from '../../utils/api/get-session';
+import styles from '../../styles/account.module.css';
 
 export async function getServerSideProps(context){
     const session = await getSession(context.req, context.res);
@@ -24,16 +26,20 @@ export default function Account({ data }){
     }, [data]);
 
     return (
-            
         <Layout sessionData={user}>
             {data ? 
-                <>
-                    <h1>All your dreams</h1>
-                    <h2>{firstName} {lastName}</h2>
-                    <p>{email}</p>
+
+                <>  
+                    <Head>
+                        <title>{firstName} {lastName}</title>
+                    </Head>
+                    <div className={styles.container}>
+                        <h1>All your dreams</h1>
+                        <h2>{firstName} {lastName}</h2>
+                        <p>{email}</p>
+                    </div>
                 </>
             : <></>}
         </Layout>
-                
     )
 }

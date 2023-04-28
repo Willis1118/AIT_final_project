@@ -1,12 +1,14 @@
 import { fetchWrapper } from "./fetch-wrappers"
 
 export const postService = {
-    getImage,
+    getGeneratedImage,
+    getHistoricImages,
     postImage,
     createPost,
+    getPosts,
 }
 
-function getImage(prompt){
+function getGeneratedImage(prompt){
     const query = {
         prompt: prompt
     }
@@ -15,6 +17,13 @@ function getImage(prompt){
            .then(data => {
                 return data;
            });
+}
+
+function getHistoricImages(user){
+    return fetchWrapper.post('/api/post/history', user)
+                       .then(data => {
+                            return data;
+                       })
 }
 
 function postImage(image, prompt, user){
@@ -29,4 +38,11 @@ function createPost(post){
                        .then(data => {
                             return data;
                        });
+}
+
+function getPosts(email){
+    return fetchWrapper.get('/api/post/history', { email: email })
+                       .then(data => {
+                            return data;
+                       })
 }

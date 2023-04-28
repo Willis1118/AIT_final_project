@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import Layout from "../components/layout";
 import { getSession } from "../utils/api/get-session";
@@ -20,6 +21,9 @@ export default function ErrorPage({ data, error }){
     return (
         <>
         <Layout sessionData={data}>
+            <Head>
+                <title>Error</title>
+            </Head>
             <h1>Oops...Something went wrong...</h1>
         </Layout>
         </>

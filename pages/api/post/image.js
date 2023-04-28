@@ -4,10 +4,10 @@ import User from '../../../models/User';
 import { dbConnection } from '../../../utils/dbConnect';
 
 export default apiHandler({
-    post: postHistory
+    post: postImage,
 });
 
-async function postHistory(req, res){
+async function postImage(req, res){
 
     const { image, prompt, user } = req.body;
 
@@ -32,7 +32,7 @@ async function postHistory(req, res){
 export const config = {
     api: {
         bodyParser: {
-            sizeLimit: '4mb'
+            sizeLimit: '11mb'
         }
     }
 };

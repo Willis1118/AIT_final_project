@@ -45,7 +45,7 @@ export default function Signup(){
     return (
         <>
             <Head>
-                <title>Signup</title>
+                <title>Sign Up</title>
             </Head>
             <Layout>
                 <div className={styles.container}>
