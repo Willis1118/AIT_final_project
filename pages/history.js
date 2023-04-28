@@ -14,11 +14,6 @@ export async function getServerSideProps(context){
     await dbConnection();
 
     const session = await getSession(context.req, context.res);
- 
-    // if(session.user){
-    //     user = await User.findOne(session.user);
-    //     images = await Image.find({creator: user}).sort({createdAt: -1}).limit(3);
-    // }
 
     return {
         props: {
@@ -38,6 +33,7 @@ export default function History({ data }){
         setUser(data);
 
         const fetchImages = async () => {
+            console.log(data);
             const response = await postService.getHistoricImages(data);
             const imageSrc = JSON.parse(response['images']);
             setImages(imageSrc);

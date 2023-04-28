@@ -10,11 +10,11 @@ export default apiHandler({
 });
 
 async function getImages(req, res){
-    const { user } = req.body;
+    const { email } = req.body;
 
     await dbConnection();
     
-    const newUser = await User.findOne(user);
+    const newUser = await User.findOne({ email: email });
     const images = await Image.find({ creator: newUser }).sort({createdAt: -1}).limit(4);
 
     return res.status(200).json({
